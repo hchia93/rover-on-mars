@@ -1,19 +1,24 @@
-#pragma once#
+#pragma once
 #include "mars.h"
 
 class Rover 
 {
-    private:
-        int x,y;
-        char heading;
     public:
         Rover() {}
+
         void land(Mars& mars);
         void turnRight(Mars& mars);
         void turnLeft(Mars& mars);
         void basicmove (Mars& mars, char);
         void move (Mars& mars);
-        int getDimX() const;
-        int getDimY() const;
-        char ObjAhead(Mars);
+
+        inline const int getDimX() const { return x; };
+        inline const int getDimY() const { return y; }
+        char ObjAhead(Mars& mars);
+
+    private:
+        int x,y;
+        char heading;
+
+        //TODO : Store Mars reference here on init. Passing it in every function is tedious.
 };

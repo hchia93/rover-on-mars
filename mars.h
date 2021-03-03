@@ -1,4 +1,4 @@
-#prama once
+#pragma once
 #include <vector>
 
 class Mars
@@ -8,8 +8,8 @@ class Mars
         void init();
         void display();
     
-        int getDimX() const;
-        int getDimY() const;
+        inline const int getDimX() const { return dimX; }
+        inline const int getDimY() const { return dimY; }
         char getObject(int, int) const; 
         char setObject(int,int,char);
     

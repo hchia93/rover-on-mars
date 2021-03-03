@@ -11,7 +11,6 @@
 
 using namespace std;
 
-    
 void test1()
 {
     Mars mars;
@@ -156,12 +155,8 @@ int main()
     //srand( time(NULL) );
     srand(1);
 
-    //test1();
-    //test2();
-    //test3();
-    //test4();
-    //test5();
-    //test6();
-    test7();
+    Mars mars;
+    mars.display();
 
+    system("pause");
 }
