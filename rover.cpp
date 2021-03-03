@@ -1,24 +1,42 @@
 #include "rover.h"
 #include "mars.h"
+#include "types.h"
 #include <cstdlib>
+#include <cmath>
 
 void Rover::land(Mars& mars)
 {
-    char possibleHeading[] = {'^', '>', '<', 'v'};
-    x = (mars.getDimX() + 1) / 2;
-    y = (mars.getDimY() + 1) / 2;
-    heading = possibleHeading[ std::rand() % 4 ]; 
-    mars.setObject(x,y,heading);
+    m_MarsReference = &mars;
+
+    m_x = std::rand() % mars.getDimX() + 1;
+    m_y = std::rand() % mars.getDimY() + 1;
+    
+    // Resolve random of 0 - 3 into 2^N form to get 0x01,0x02,0x04,0x08, then resolve into enum
+    // Reason is the the same enum will be use to reveal front-adjacent cell (3 cell) without calling 1 function per direction.
+    const int startingFacing =  std::rand() % 4;
+    m_CurrentFacing = static_cast<EDirection>(std::pow(2, startingFacing));
+    
+    // Render self on mars
+    m_MarsReference->setObject(m_x, m_y, EnumUtil::toSymbol(m_CurrentFacing));
+
+    // Also collect item-info right at this position 
+    m_Map.push_back(Point(m_x, m_y));
 }
 
-void Rover::turnLeft(Mars& mars)
+void Rover::turnLeft()
 {
-    mars.setObject(x,y,'<');
+    // This function is relative to self-orientation
+    EDirection newFacing = EnumUtil::getLeftOf(m_CurrentFacing);
+    m_MarsReference->setObject(m_x, m_y, EnumUtil::toSymbol(newFacing));
+    m_CurrentFacing = newFacing;
 }
 
-void Rover::turnRight(Mars& mars)
+void Rover::turnRight()
 {
-    mars.setObject(x,y,'>');
+    // This function is relative to self-orientation
+    EDirection newFacing = EnumUtil::getRightOf(m_CurrentFacing);
+    m_MarsReference->setObject(m_x, m_y, EnumUtil::toSymbol(newFacing));
+    m_CurrentFacing = newFacing;
 }
 
 void Rover::basicmove(Mars& mars, char ahead)
@@ -49,6 +67,35 @@ void Rover::basicmove(Mars& mars, char ahead)
     }
 }
 
+void Rover::move()
+{
+    // TODO : Collect new object here
+    // TODO : Mark to map here
+    // TODO : Trap handling here
+    // TODO : Death handling here.
+
+    // ask mars to check his own gold situation - and notify it is a win.
+    //m_MarsReference->update();
+}
+
+void Rover::processInput(char c)
+{
+    //no implemented yet
+    if(c == 'a' || c == 'A' )
+    {
+        turnLeft();
+    }
+    else if(c == 'w' || c == 'W' )
+    {
+        move();
+    }
+    else if(c == 'd' || c == 'D' )
+    {
+        turnRight();
+    }
+}
+
+// I find this bit weird on the indexing order.
 void Rover::move(Mars& mars)
 {
     //this function will check whats infront of the rover and move it
@@ -102,4 +149,17 @@ char Rover::ObjAhead(Mars& mars)
 
     // TODO : Check default case.
     return posiObj;
-};
+}
+
+bool Rover::hasTravelled(const int x, const int y) const
+{
+    for(const Point& p : m_Map)
+    {
+        if(p.x == x && p.y == y)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}

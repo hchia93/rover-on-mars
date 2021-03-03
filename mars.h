@@ -19,6 +19,10 @@ class Mars
         bool isThereGold();
     
     private:
+    
         std::vector <std::vector<char>> map;
         int dimX, dimY;
+
+        void drawSeparator();
+        void drawRow(const int i);
 };

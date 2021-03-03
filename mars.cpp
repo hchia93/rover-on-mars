@@ -6,6 +6,7 @@
 #include <ctime> //for time() in srand( time(NULL) );
 #include <windows.h> // for Sleep()
 #include "mars.h"
+#include "types.h"
 
 void Mars::init()
 {
@@ -13,8 +14,8 @@ void Mars::init()
     int numOfObjects = (sizeof(objects)/sizeof(*objects)); 
 
     // TODO : Size to be random generated, perhaps multiplication of 5
-    dimX = 25;
-    dimY = 25;
+    dimX = 5;
+    dimY = 5;
 
     // Allocation
     map.resize(dimY); 
@@ -36,19 +37,14 @@ void Mars::init()
 
 void Mars::display()
 {
+    // TODO : Update this to read rover flag, or vice-versa -> display needs to be marsked!
     system("cls");
     std::cout << " -------------------------------" << std::endl;
     std::cout << " = Curiosity, Welcome to Mars! =" << std::endl;
     std::cout << " -------------------------------" << std::endl;
     for (int i = 0 ; i < dimY; ++i)
     {
-        // Reserve space for index
-        std::cout << "  ";
-        for (int j = 0; j < dimX; ++j)
-        {
-            std::cout << "+-";
-        }
-        std::cout << "+" << std::endl;
+        std::cout << "  "; drawSeparator();
 
         // Row Index Handling
         // Fill in a space for digit less than 10 that causes alignment on rows.
@@ -57,20 +53,11 @@ void Mars::display()
             std::cout<< " ";
         std::cout << std::setw(1) << rowIndex;
 
-        for (int j = 0; j < dimX; ++j)
-        {
-            std::cout << "|" << map[i][j];
-        }
-        std::cout << "|" << std::endl;
+        drawRow(i);
     }
 
-    // TODO : Comment (This is repeated with a chunk above, consider make it a separate helper draw function)
-    std::cout << "  ";
-    for (int j = 0; j < dimX; ++j)
-    {
-        std::cout << "+-";
-    }
-    std::cout << "+" << std::endl;
+    // Reserve space for index then start draw boarder
+    std::cout << "  "; drawSeparator();
 
      // Column Index Handling - Tenth digit
     std::cout << "  ";
@@ -128,8 +115,27 @@ bool Mars::isGold(int x, int y)
 bool Mars::isThereGold()
 {
     // checks if there is gold IN FRONT of the rover
+    /// TODO : Infront or AdjacentOf? 
     int x = getDimX();
     int y = getDimY();
     
     return (isGold(x+1,y) || isGold(x-1,y) || isGold(x,y+1) || isGold(x+1,y-1));
 };
+
+void Mars::drawSeparator()
+{
+    for (int j = 0; j < dimX; ++j)
+    {
+        std::cout << "+-";
+    }
+    std::cout << "+" << std::endl;
+}
+
+void Mars::drawRow(const int i)
+{
+    for (int j = 0; j < dimX; ++j)
+    {
+        std::cout << "|" << map[i][j];
+    }
+    std::cout << "|" << std::endl;
+}
