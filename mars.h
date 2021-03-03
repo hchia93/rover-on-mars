@@ -1,4 +1,5 @@
 #pragma once
+#include "types.h"
 #include <vector>
 
 class Mars
@@ -8,8 +9,8 @@ class Mars
         void init();
         void display();
     
-        inline const int getDimX() const { return dimX; }
-        inline const int getDimY() const { return dimY; }
+        inline const int getDimX() const { return m_DimX; } //If not called, remove this.
+        inline const int getDimY() const { return m_DimY; } //If not called, remove this.
         char getObject(int, int) const; 
         char setObject(int,int,char);
     
@@ -17,12 +18,21 @@ class Mars
         bool isInsideMap(int, int);
         bool isGold(int, int);
         bool isThereGold();
+
+        void setRoverInfo(const Point& location, EDirection facing);
+        void setDebug(bool isDebug) { m_IsDebug = isDebug; }
     
     private:
-    
-        std::vector <std::vector<char>> map;
-        int dimX, dimY;
-
         void drawSeparator();
         void drawRow(const int i);
+        bool matchPoints(int i, int j, std::vector<Point> points);
+
+        std::vector <std::vector<char>> map;
+        
+        // Required to deduce visibility on draw()
+        Point m_RoverLocation;
+        EDirection m_RoverFacing;
+
+        int m_DimX, m_DimY;
+        bool m_IsDebug = false;
 };

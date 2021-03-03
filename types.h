@@ -1,9 +1,11 @@
 #pragma once
+#include <vector>
 
 struct Point
 {
     int x, y;
     explicit Point(int x, int y) : x(x), y(y) {};
+    explicit Point() : x(0), y(0) {};
 };
 
 enum EDirection : int
@@ -21,5 +23,6 @@ public:
     static char toSymbol(EDirection direction);
     static EDirection getLeftOf(EDirection direction);
     static EDirection getRightOf(EDirection direction);
-    //Point getPointAheadOf(EDirection direction, const Point& currentPoint);
+    static std::vector<Point> getPointAheadOf(const Point& currentPoint, EDirection direction);
+    static std::vector<Point> getPointAdjacentOf(const Point& currentPoint, EDirection direction);
 };

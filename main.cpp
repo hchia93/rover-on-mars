@@ -13,7 +13,7 @@
 
 int main()
 {
-    std::srand(1);
+    std::srand(time(NULL));
     Mars mars;
     Rover rover;
     rover.land(mars);

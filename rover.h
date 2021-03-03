@@ -9,22 +9,17 @@ class Rover
         Rover() {}
 
         void land(Mars& mars);
+        void processInput(char c);
+        bool hasTravelled(const int x, const int y) const;
+
+        // REVISIT THIS - REMOVE LATER.
+        void move (Mars& mars);
+        
+    private:
         void turnRight();
         void turnLeft();
         void move();
-        void processInput(char c);
 
-        // REVISIT THIS
-        void basicmove (Mars& mars, char);
-        void move (Mars& mars);
-
-        inline const int getDimX() const { return m_x; }
-        inline const int getDimY() const { return m_y; }
-
-        char ObjAhead(Mars& mars);
-
-        bool hasTravelled(const int x, const int y) const;
-    private:
         int m_x, m_y;
 
         std::vector<Point> m_Map;
