@@ -10,19 +10,17 @@ class Rover
 
         void land(Mars& mars);
         void processInput(char c);
-        bool hasTravelled(const int x, const int y) const;
-
-        // REVISIT THIS - REMOVE LATER.
-        void move (Mars& mars);
+        bool hasTravelled(Point& point) const;
         
     private:
         void turnRight();
         void turnLeft();
         void move();
 
-        int m_x, m_y;
-
-        std::vector<Point> m_Map;
+        Point m_Location;
         EDirection m_CurrentFacing;
+        std::vector<Point> m_Map;
+        int m_GoldScore = 0;
+
         Mars* m_MarsReference;
 };

@@ -26,8 +26,8 @@ int main()
     {
         mars.display();
         std::cout << "Input =>";
-        std::cin >> input;  //Normally, input wait would block - but if inputstream is mess up, things will start infinite again.
-        rover.processInput(input); // And ideally, handle separately.
+        std::cin >> input;  
+        rover.processInput(input); 
         Sleep(200);
     }
     system("pause");

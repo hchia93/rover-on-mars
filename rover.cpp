@@ -14,21 +14,20 @@ void Rover::land(Mars& mars)
     const int startingFacing =  std::rand() % 4;
     m_CurrentFacing = static_cast<EDirection>(std::pow(2, startingFacing));
 
-    m_x = std::rand() % mars.getDimX() + 1;
-    m_y = std::rand() % mars.getDimY() + 1;
+    m_Location.x = std::rand() % mars.getDimX() + 1;
+    m_Location.y = std::rand() % mars.getDimY() + 1;
     
     // Reroll until it is valid
-    while(!m_MarsReference->isInsideMap(m_x, m_y))
+    while(!m_MarsReference->isInsideMap(m_Location))
     {
-        m_x = std::rand() % mars.getDimX() + 1;
-        m_y = std::rand() % mars.getDimY() + 1;
+        m_Location.x = std::rand() % mars.getDimX() + 1;
+        m_Location.y = std::rand() % mars.getDimY() + 1;
     }
 
-    
-    m_MarsReference->setRoverInfo(Point(m_x, m_y), m_CurrentFacing);
+    m_MarsReference->setRoverInfo(m_Location, m_CurrentFacing);
    
     // Also collect item-info right at this position 
-    m_Map.push_back(Point(m_x, m_y));
+    m_Map.push_back(m_Location);
 }
 
 void Rover::turnLeft()
@@ -37,7 +36,7 @@ void Rover::turnLeft()
     EDirection newFacing = EnumUtil::getLeftOf(m_CurrentFacing);
     m_CurrentFacing = newFacing;
     
-    m_MarsReference->setRoverInfo(Point(m_x, m_y), newFacing);
+    m_MarsReference->setRoverInfo(m_Location, newFacing);
 }
 
 void Rover::turnRight()
@@ -46,40 +45,54 @@ void Rover::turnRight()
     EDirection newFacing = EnumUtil::getRightOf(m_CurrentFacing);
     m_CurrentFacing = newFacing;
 
-    m_MarsReference->setRoverInfo(Point(m_x, m_y), newFacing);
+    m_MarsReference->setRoverInfo(m_Location, newFacing);
 }
 
 void Rover::move()
 {
-    std::vector<Point> points = EnumUtil::getPointAheadOf(Point(m_x, m_y), m_CurrentFacing);
+    std::vector<Point> points = EnumUtil::getPointAheadOf(m_Location, m_CurrentFacing);
     
-    if(m_MarsReference->isInsideMap(points[0].x, points[0].y))
+    if(m_MarsReference->isInsideMap(points[0]))
     {
-        // Check other blockers first.
+        // Do not move if it is hill ahead.
+        if(m_MarsReference->isHill(points[0])) //<- index seems off
+        {
+            return;
+        }
+        else
+        {
+            // Update self movement.
+            m_Location = points[0];
 
-        
-        // TODO : Collect new object here
-        // TODO : Trap handling here
-        // TODO : Death handling here.
+            // Mark on map.
+            m_Map.push_back(points[0]); 
 
-        // Update self movement.
-        m_x = points[0].x;
-        m_y = points[0].y;
+            // Notify map about the new move.
+            m_MarsReference->setRoverInfo(points[0], m_CurrentFacing);
 
-        // Mark on map.
-        m_Map.push_back(points[0]); 
+            if(!m_MarsReference->isEmpty(points[0]))   //<- index seems off
+            {
+                if(m_MarsReference->isGold(points[0]))  //<- index seems off
+                {
+                    m_GoldScore++;
+                    m_MarsReference->setObject(points[0], ' ');
+                }
 
-        // Notify map about the new move.
-        m_MarsReference->setRoverInfo(points[0], m_CurrentFacing);
+                if(m_MarsReference->isTrap(points[0]))  //<- index seems off
+                {
+                    m_MarsReference->setGameOver();
+                }
+            }
 
-        // ask mars to check his own gold situation - and notify it is a win.
-        //m_MarsReference->update();
+            m_MarsReference->setDisplayScore(m_GoldScore);
+        }
     }
 }
 
 void Rover::processInput(char c)
 {
     m_MarsReference->setDebug(false);
+
     if(c == 'a' || c == 'A' )
     {
         turnLeft();
@@ -98,40 +111,11 @@ void Rover::processInput(char c)
     }
 }
 
-// TODO : Capture traps and collecting behavior.
-void Rover::move(Mars& mars)
-{
-    //this function will check whats infront of the rover and move it
-    //char ahead = ObjAhead(mars);
-    //int x = getDimX();
-    //int y = getDimY();
-    //char curdir = mars.getObject(x,y); //rovers current direction (<,>,v,^)
-    //if( curdir != '#' && ahead == ' ')
-    //{
-    //    basicmove(mars, curdir);
-    //}
-    //if(ahead == 'X')
-    //{
-        //trap
-        //basicmove(mars, '@');
-        //game over ?
-    //}
-    //if(ahead == '$')
-    //{
-        //basicmove(mars, curdir);
-    //}
-    //if(ahead == '#')
-    //{
-        //hill
-        //(doesnt move)
-    //}
-}
-
-bool Rover::hasTravelled(const int x, const int y) const
+bool Rover::hasTravelled(Point& point) const
 {
     for(const Point& p : m_Map)
     {
-        if(p.x == x && p.y == y)
+        if(point == p)
         {
             return true;
         }

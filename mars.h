@@ -9,23 +9,27 @@ class Mars
         void init();
         void display();
     
-        inline const int getDimX() const { return m_DimX; } //If not called, remove this.
-        inline const int getDimY() const { return m_DimY; } //If not called, remove this.
-        char getObject(int, int) const; 
-        char setObject(int,int,char);
+        inline const int getDimX() const { return m_DimX; } 
+        inline const int getDimY() const { return m_DimY; } 
+
+        char getObject(const Point& point) const; 
+        char setObject(const Point& point, char c);
     
-        bool isEmpty(int, int);
-        bool isInsideMap(int, int);
-        bool isGold(int, int);
-        bool isThereGold();
+        bool isEmpty(const Point& point);
+        bool isInsideMap(const Point& point);
+        bool isGold(const Point& point);
+        bool isTrap(const Point& point);
+        bool isHill(const Point& point);
 
         void setRoverInfo(const Point& location, EDirection facing);
         void setDebug(bool isDebug) { m_IsDebug = isDebug; }
+        void setDisplayScore(int score) { m_DisplayScore = score; }
+        void setGameOver() { m_GameOver = true; }
     
     private:
         void drawSeparator();
         void drawRow(const int i);
-        bool matchPoints(int i, int j, std::vector<Point> points);
+        bool matchPoints(const Point& point, std::vector<Point> points);
 
         std::vector <std::vector<char>> map;
         
@@ -35,4 +39,7 @@ class Mars
 
         int m_DimX, m_DimY;
         bool m_IsDebug = false;
+
+        int m_DisplayScore = 0;
+        bool m_GameOver = false;
 };

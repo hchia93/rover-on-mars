@@ -19,7 +19,6 @@ char EnumUtil::toSymbol(EDirection direction)
 
 EDirection EnumUtil::getLeftOf(EDirection direction)
 {
-    // Simplier line but complex solution -> deduce this to circular bitshifting.
     switch(direction)
     {
         case EDirection::North:
