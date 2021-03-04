@@ -56,7 +56,7 @@ void Mars::display()
 
         // Row Index Handling
         // Fill in a space for digit less than 10 that causes alignment on rows.
-        const int rowIndex = i;
+        const int rowIndex = m_DimY - i;
         if(rowIndex < 10) 
             std::cout<< " ";
         std::cout << std::setw(1) << rowIndex;
@@ -71,7 +71,7 @@ void Mars::display()
     std::cout << "  ";
     for (int j = 0; j < m_DimX; ++j)
     {
-        int digit = (j)/10;
+        int digit = (j + 1) / 10;
         std::cout << " ";
 
         if(digit == 0)
@@ -89,7 +89,7 @@ void Mars::display()
     std::cout << "  ";
     for (int j=0; j< m_DimX; ++j)
     {
-        std::cout << " " << (j)%10;
+        std::cout << " " << (j + 1) %10;
     }
     std::cout << std::endl << std::endl;
 
@@ -155,12 +155,12 @@ void Mars::drawRow(const int i)
         
         Point p = Point(j, i);
         const bool isPlayer = (m_RoverLocation == p);
-        const bool shouldReveal = m_IsDebug || matchPoints(p, EnumUtil::getPointAheadOf(m_RoverLocation, m_RoverFacing)) || matchPoints(p, EnumUtil::getPointAdjacentOf(m_RoverLocation, m_RoverFacing)); 
+        const bool isFrontRow = matchPoints(p, EnumUtil::getPointRowAheadOf(m_RoverLocation, m_RoverFacing)); 
         if (isPlayer)
         {
             display = EnumUtil::toSymbol(m_RoverFacing);
         }
-        else if(shouldReveal) 
+        else if(isExplored(p) || m_IsDebug) 
         {
             display = map[i][j];
         }
@@ -173,6 +173,19 @@ void Mars::drawRow(const int i)
 bool Mars::matchPoints(const Point& point, std::vector<Point> points)
 {
     for(Point& p : points)
+    {
+        if(p == point)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Mars::isExplored(const Point& point)
+{
+    for(auto&& p : *m_MapReference)
     {
         if(p == point)
         {

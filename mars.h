@@ -20,8 +20,11 @@ class Mars
         bool isGold(const Point& point);
         bool isTrap(const Point& point);
         bool isHill(const Point& point);
+        
+        bool isExplored(const Point& point);
 
         void setRoverInfo(const Point& location, EDirection facing);
+        void setMap(std::vector<Point>* map)  { m_MapReference = map; }
         void setDebug(bool isDebug) { m_IsDebug = isDebug; }
         void setDisplayScore(int score) { m_DisplayScore = score; }
         void setGameOver() { m_GameOver = true; }
@@ -36,6 +39,7 @@ class Mars
         // Required to deduce visibility on draw()
         Point m_RoverLocation;
         EDirection m_RoverFacing;
+        std::vector<Point>* m_MapReference;
 
         int m_DimX, m_DimY;
         bool m_IsDebug = false;

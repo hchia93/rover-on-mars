@@ -10,12 +10,13 @@ class Rover
 
         void land(Mars& mars);
         void processInput(char c);
-        bool hasTravelled(Point& point) const;
         
     private:
         void turnRight();
         void turnLeft();
         void move();
+
+        void explore();
 
         Point m_Location;
         EDirection m_CurrentFacing;

@@ -23,9 +23,10 @@ void Rover::land(Mars& mars)
     }
 
     m_MarsReference->setRoverInfo(m_Location, m_CurrentFacing);
+    m_MarsReference->setMap(&m_Map);
    
-    // Also collect item-info right at this position 
     m_Map.push_back(m_Location);
+    explore();
 }
 
 void Rover::turnLeft()
@@ -35,6 +36,7 @@ void Rover::turnLeft()
     m_CurrentFacing = newFacing;
     
     m_MarsReference->setRoverInfo(m_Location, newFacing);
+    explore();
 }
 
 void Rover::turnRight()
@@ -44,11 +46,13 @@ void Rover::turnRight()
     m_CurrentFacing = newFacing;
 
     m_MarsReference->setRoverInfo(m_Location, newFacing);
+    explore();
 }
 
 void Rover::move()
 {
-    std::vector<Point> points = EnumUtil::getPointAheadOf(m_Location, m_CurrentFacing);
+    // Peek ahead , do not mark explored yet. Current location should already mark explored.
+    std::vector<Point> points = EnumUtil::getPointRowAheadOf(m_Location, m_CurrentFacing);
     
     if(m_MarsReference->isInsideMap(points[0]))
     {
@@ -60,32 +64,32 @@ void Rover::move()
        
         // Commit movement
         m_Location = points[0];
-        m_Map.push_back(points[0]); 
         m_MarsReference->setRoverInfo(points[0], m_CurrentFacing);
 
         // Post movement handling
-        if(!m_MarsReference->isEmpty(points[0]))   //<- index seems off
+        if(!m_MarsReference->isEmpty(points[0])) 
         {
-            if(m_MarsReference->isGold(points[0]))  //<- index seems off
+            if(m_MarsReference->isGold(points[0]))
             {
                 m_GoldScore++;
                 m_MarsReference->setObject(points[0], ' ');
             }
 
-            if(m_MarsReference->isTrap(points[0]))  //<- index seems off
+            if(m_MarsReference->isTrap(points[0]))
             {
                 m_MarsReference->setGameOver();
             }
         }
-
+        
         m_MarsReference->setDisplayScore(m_GoldScore);
+        
+        explore();
     }
 }
 
 void Rover::processInput(char c)
 {
-    // Temporarly disable this to make display persistance.
-    //m_MarsReference->setDebug(false);
+    m_MarsReference->setDebug(false);
 
     if(c == 'a' || c == 'A' )
     {
@@ -105,15 +109,14 @@ void Rover::processInput(char c)
     }
 }
 
-bool Rover::hasTravelled(Point& point) const
+void Rover::explore()
 {
-    for(const Point& p : m_Map)
+    // Explore the next direction row.
+    for(const Point& p : EnumUtil::getPointRowAheadOf(m_Location, m_CurrentFacing))
     {
-        if(point == p)
+        if(!m_MarsReference->isExplored(p))
         {
-            return true;
+            m_Map.push_back(p);
         }
     }
-
-    return false;
 }
