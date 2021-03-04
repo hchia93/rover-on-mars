@@ -37,10 +37,12 @@ void Mars::init()
 
 void Mars::display()
 {
-    if(!m_GameOver)
+    if(m_GameOver)
     {
         system("cls");
         std::cout << "Game Over" << std::endl;
+        std::cout<<"Gold Count: " <<m_DisplayScore << std::endl;
+        return;
     }
 
     // TODO : Update this to read rover flag, or vice-versa -> display needs to be marsked!
@@ -54,7 +56,7 @@ void Mars::display()
 
         // Row Index Handling
         // Fill in a space for digit less than 10 that causes alignment on rows.
-        const int rowIndex = m_DimY - i;
+        const int rowIndex = i;
         if(rowIndex < 10) 
             std::cout<< " ";
         std::cout << std::setw(1) << rowIndex;
@@ -69,7 +71,7 @@ void Mars::display()
     std::cout << "  ";
     for (int j = 0; j < m_DimX; ++j)
     {
-        int digit = (j+1)/10;
+        int digit = (j)/10;
         std::cout << " ";
 
         if(digit == 0)
@@ -87,45 +89,47 @@ void Mars::display()
     std::cout << "  ";
     for (int j=0; j< m_DimX; ++j)
     {
-        std::cout << " " << (j+1)%10;
+        std::cout << " " << (j)%10;
     }
     std::cout << std::endl << std::endl;
+
+    std::cout<<std::endl;
+    std::cout<<"Gold Count: " <<m_DisplayScore << std::endl;
 }
 
-
-char Mars::getObject(const Point& point) const //this is to flip the y axis array (m_DimY-y)
+char Mars::getObject(const Point& point) const 
 {
-    return map[m_DimY - point.y][point.x - 1];
+    return map[point.y][point.x];
 }
 
 char Mars::setObject(const Point& point, char c)
 {
-    return map[m_DimY - point.y][point.x - 1] = c;
+    return map[point.y][point.x] = c;
 }
 
 bool Mars::isEmpty(const Point& point)
 {
-    return map[m_DimY - point.y][point.x - 1] == ' ';
+    return map[point.y][point.x] == ' ';
 }
 
 bool Mars::isInsideMap(const Point& point)
 {
-    return (point.y > 0 && point.y <= m_DimX) && (point.x > 0 && point.x <= m_DimX);
+    return (point.y > 0 && point.y < m_DimX) && (point.x > 0 && point.x < m_DimX);
 }
 
 bool Mars::isGold(const Point& point)
 {
-    return map[m_DimY - point.y][point.x - 1] == '$';
+    return map[point.y][point.x] == '$';
 }
 
 bool Mars::isTrap(const Point& point)
 {
-    return map[m_DimY - point.y][point.x - 1] == 'X';
+    return map[point.y][point.x] == 'X';
 }
 
 bool Mars::isHill(const Point& point)
 {
-    return map[m_DimY - point.y][point.x - 1] == '#';
+    return map[point.y][point.x] == '#';
 }
 
 void Mars::setRoverInfo(const Point& point, EDirection facing)
@@ -149,7 +153,7 @@ void Mars::drawRow(const int i)
     {
         char display = '?'; 
         
-        Point p = Point(i, j);
+        Point p = Point(j, i);
         const bool isPlayer = (m_RoverLocation == p);
         const bool shouldReveal = m_IsDebug || matchPoints(p, EnumUtil::getPointAheadOf(m_RoverLocation, m_RoverFacing)) || matchPoints(p, EnumUtil::getPointAdjacentOf(m_RoverLocation, m_RoverFacing)); 
         if (isPlayer)

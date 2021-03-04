@@ -11,13 +11,13 @@ struct Point
     bool operator==(Point& p) { return x == p.x && y == p.y; }
 };
 
-enum EDirection : int
+enum class EDirection : int
 {
-    North   = 0x01,
-    East    = 0x02,
-    South   = 0x03,
-    West    = 0x04,
-    None    = 0x08
+    North,
+    East,
+    South,
+    West,
+    None
 };
 
 class EnumUtil
