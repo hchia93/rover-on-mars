@@ -22,7 +22,7 @@ enum class EDirection : int
 
 class EnumUtil
 {
-public: 
+public:
     static char toSymbol(EDirection direction);
     static EDirection getLeftOf(EDirection direction);
     static EDirection getRightOf(EDirection direction);

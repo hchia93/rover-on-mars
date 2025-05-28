@@ -22,12 +22,12 @@ int main()
 
     // Keep looping for update, also put a means to capture input per cycle. 
     // Use alt+F4 to quit.
-    while(true)
+    while (true)
     {
         mars.display();
         std::cout << "Input =>";
-        std::cin >> input;  
-        rover.processInput(input); 
+        std::cin >> input;
+        rover.processInput(input);
         Sleep(200);
     }
     system("pause");
