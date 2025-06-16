@@ -20,6 +20,6 @@ In Visual Studio, build and run.
 `@` is an umimplement symbols, only the original author may knows.
 
 ## Authors
-Assignment Owner: [@Dylan55767](https://github.com/Dylan55767)
+Assignment Owner: [@Dylan55767](https://github.com/Dylan55767) `NO LONGER ACCESSIBLE`
 
 Contributor : [@hchia93](https://www.github.com/hchia93)
