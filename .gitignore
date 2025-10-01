@@ -13,9 +13,6 @@
 *.dylib
 *.dll
 
-# Log files
-*.txt
-
 # Compiled Static libraries
 *.lai
 *.la
