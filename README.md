@@ -1,6 +1,6 @@
 # rover-on-mars
 
-![Build Status](https://github.com/hchia93/rover-on-mars/actions/workflows/build.yml/badge.svg)
+![Build Status](https://github.com/hchia93/rover-on-mars/actions/workflows/build.yml/badge.svg?branch=main)
 
 **rover-on-mars** is a simple text-based exploration game originally developed as part of a programming fundamentals assignment.  
 
