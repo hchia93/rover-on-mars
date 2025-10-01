@@ -28,6 +28,4 @@
 *.app
 
 # Directories
-/RoverOnMars/.vs
-/RoverOnMars/x64
-/RoverOnMars/RoverOnMars
+generated-vs/
