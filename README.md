@@ -1,25 +1,38 @@
-# RoverOnMars
-Rover on mars is a simple exploration game in command prompt settings. 
-It was an assignment for programing fundamental for my University Junior where his lecturer also my [lecturer](https://mmuexpert.mmu.edu.my/ypwong).
+# rover-on-mars
 
-![Watch the preview](rover-on-mars.gif)
+**rover-on-mars** is a simple text-based exploration game developed as part of a programming fundamentals assignment.  
+The game runs entirely in the command prompt and demonstrates core concepts of input handling, collision detection, and basic game logic.
 
-## Instruction
+![Preview](rover-on-mars.gif)
+
+## Getting Started
+
+### Prerequisites
+- Windows OS
+- [Visual Studio](https://visualstudio.microsoft.com/) with C++ development tools installed
+
 ### Running the Application
-In Visual Studio, build and run.
-   
-### Gameplay
-`A` and `D` to rotate the rovers, while 'W' move forward.
+1. Open the project in Visual Studio.  
+2. Build the solution.  
+3. Run the executable in the command prompt.
 
-`X` indicates `trap`, game over upon contact.
+## Gameplay
 
-`$` indicates `gold`, score upon contact.
+- **Controls**  
+  - `A` / `D` : Rotate the rover  
+  - `W` : Move forward  
 
-`#` indicates `hill`, will block the rover from advancing.
+- **Map Symbols**  
+  - `X` : Trap — game over upon contact  
+  - `$` : Gold — increases score upon contact  
+  - `#` : Hill — blocks the rover from advancing  
+  - `@` : Unimplemented symbol (reserved by original author)  
 
-`@` is an umimplement symbols, only the original author may knows.
 
-## Authors
-Assignment Owner: [@Dylan55767](https://github.com/Dylan55767) `NO LONGER ACCESSIBLE`
+## Acknowledgments
 
-Contributor : [@hchia93](https://www.github.com/hchia93)
+This project originated as a university programming fundamentals assignment.  
+It has been preserved and refined here as an example of early-stage C++ learning and console-based game design.
+
+- **Original Author (Assignment Owner):** [@Dylan55767](https://github.com/Dylan55767) *(account no longer accessible)*  
+- **Contributor / Maintainer:** [@hchia93](https://github.com/hchia93)
