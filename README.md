@@ -8,6 +8,10 @@ It simulates a rover navigating the Martian surface inside a command prompt envi
 
 The project demonstrates early applications of **C++ programming**, including structured input handling, collision detection, and grid-based game logic.
 
+<p align="center">
+  <img src="rover-on-mars.gif" alt="Preview" width="300"/>
+</p>
+
 ## ✨ Features
 
 - Text-based game loop running entirely in the terminal  
@@ -16,10 +20,6 @@ The project demonstrates early applications of **C++ programming**, including st
 - Score collection mechanic with gold pickups  
 - Simple win/lose conditions (collect vs. traps)  
 - Easily extendable map system using ASCII symbols  
-
-<p align="center">
-  <img src="rover-on-mars.gif" alt="Preview" width="300"/>
-</p>
 
 ## Project Structure
 
@@ -32,7 +32,7 @@ rover-on-mars/
 └── generated-vs/          # Generated Visual Studio solution
 ```
 
-## Running the Project
+## Project Setup
 
 ### Step 1: Generate Solution
 
@@ -58,12 +58,14 @@ Open the generated solution located at:
 
 > ⚠️ Ensure the start-up project is `rover-on-mars` during build or debug.
 
-## Game Controls
+## Running Project 
+
+### Game Controls
 
 - `A` / `D` : Rotate the rover  
 - `W` : Move forward  
 
-## Map Symbols
+### Map Symbols
 
 - `X` : Trap — game over upon contact  
 - `$` : Gold — increases score upon contact  
